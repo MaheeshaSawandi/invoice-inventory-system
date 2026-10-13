@@ -1,14 +1,22 @@
-# Invoice & Inventory System (Spring Boot REST API)
+# Stockbook: Invoice & Inventory System
 
-A backend for small businesses to manage **products, stock levels, customers and invoices**.
-It's built with Java 17 and Spring Boot 3, and it uses my accounting background (CBL1, AAT) to model real invoicing rules.
+A full-stack app for small businesses to manage **products, stock levels, customers and invoices**.
+The backend is a **Spring Boot REST API** and the frontend is a **React** web app.
+It uses my accounting background (CBL1, AAT) to model real invoicing and stock rules.
+
+![Overview page](docs/screenshots/overview.png)
+![Products page](docs/screenshots/products.png)
 
 ## Tech stack
 
+**Backend**
 - **Java 17**, **Spring Boot 3.5** (Web, Data JPA, Validation)
 - **MySQL** (production profile) / **H2** in-memory (dev profile and tests)
 - **Swagger / OpenAPI** (springdoc) for interactive API docs
 - **Lombok**, **JUnit 5 + MockMvc** integration tests
+
+**Frontend** (in [`frontend/`](frontend))
+- **React 18** + **Vite**, React Router, plain CSS
 
 ## Features (current)
 
@@ -19,10 +27,11 @@ It's built with Java 17 and Spring Boot 3, and it uses my accounting background 
 - Request validation with clear field-level error messages
 - Consistent JSON error responses (400, 404, 409) through a global exception handler
 - Invoice and InvoiceItem entities (the invoice logic comes next)
+- **React frontend:** overview of products that need reordering and total stock value, product and customer management with search and paging, a stock meter for each product, and API validation errors shown under each form field
 
 ## Roadmap
 
-- [ ] Create invoices: stock reduces automatically, and the request is rejected if stock is too low
+- [ ] Create invoices (backend + Invoices page): stock reduces automatically, and the request is rejected if stock is too low
 - [ ] Mark invoices paid / cancel (cancelling restores stock)
 - [ ] Reports: monthly sales, unpaid invoices, best-selling products
 - [ ] Spring Security + JWT with ADMIN and CASHIER roles
@@ -31,6 +40,8 @@ It's built with Java 17 and Spring Boot 3, and it uses my accounting background 
 - [ ] GitHub Actions CI and deployment
 
 ## Run locally
+
+### Backend
 
 **Option 1: quick start (no database install).** It uses H2 and loads sample data.
 
@@ -53,6 +64,18 @@ Then open:
 
 - Swagger UI: http://localhost:8080/swagger-ui.html
 - H2 console (dev only): http://localhost:8080/h2-console (JDBC URL `jdbc:h2:mem:inventorydb`, user `sa`)
+
+### Frontend
+
+Requires Node.js 18+. Start the backend first, then in a second terminal:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open http://localhost:5173. In development, Vite forwards `/api` requests to the backend on port 8080.
 
 ## Run tests
 
@@ -92,6 +115,7 @@ Example error response:
 ## Project structure
 
 ```
+frontend/         React app (see frontend/README.md)
 src/main/java/com/maheesha/inventory
 ├── config/       OpenAPI config, dev sample data
 ├── controller/   REST endpoints
